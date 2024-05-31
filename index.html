@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Payment Form</title>
+    <style>
+      #payment_form {
+        padding: 20px;
+        border: 1px solid #ddd;
+        margin: 20px auto;
+        max-width: 400px;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+      .max-h {
+        max-height: 35px;
+      }
+      input {
+        width: 100%;
+        font-size: 16px;
+        padding: 10px 5px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+
+    <!------------------------------------
+      the form below is for secured field method test 
+    --------------------------------------->
+
+    <!-- <form method="POST" id="payment_form" onsubmit="return submitForm(event)">
+      <label for="eway-secure-field-name">Card Name:</label>
+      <div class="max-h" id="eway-secure-field-name"></div>
+      <br />
+      <label for="eway-secure-field-card">Card Number:</label>
+      <div class="max-h" id="eway-secure-field-card"></div>
+      <br />
+      <label for="eway-secure-field-expiry">Card Expiry:</label>
+      <div class="max-h" id="eway-secure-field-expiry"></div>
+      <br />
+      <label for="eway-secure-field-cvn">Card CVN:</label>
+      <div class="max-h" id="eway-secure-field-cvn"></div>
+      <br /><br />
+      <input
+        type="hidden"
+        id="securefieldcode"
+        name="SecuredCardData"
+        value=""
+      />
+      <input type="submit" value="Process Payment" />
+    </form>
+
+    <script type="text/javascript">
+      // Replace with your actual public API key
+      var publicApiKey = "epk-CC76CFBD-C4C2-4A6B-BA1F-E47449650A5F";
+
+      var fieldStyles =
+        "line-height: 1; height: 28px; border: 1px solid #AAA; color: #000; padding: 2px;";
+
+      // Secure field configurations
+      var nameFieldConfig = {
+        publicApiKey: publicApiKey,
+        fieldDivId: "eway-secure-field-name",
+        fieldType: "name",
+        styles: fieldStyles,
+      };
+      var cardFieldConfig = {
+        publicApiKey: publicApiKey,
+        fieldDivId: "eway-secure-field-card",
+        fieldType: "card",
+        styles: fieldStyles,
+      };
+      var expiryFieldConfig = {
+        publicApiKey: publicApiKey,
+        fieldDivId: "eway-secure-field-expiry",
+        fieldType: "expiry",
+        styles: fieldStyles,
+      };
+      var cvnFieldConfig = {
+        publicApiKey: publicApiKey,
+        fieldDivId: "eway-secure-field-cvn",
+        fieldType: "cvn",
+        styles: fieldStyles,
+      };
+
+      // Secure field callback function
+      function secureFieldCallback(event) {
+        if (event.errors) {
+          alert(event.errors);
+        } else if (event.secureFieldCode) {
+          // Set the hidden Secure Field Code field
+          var s = document.getElementById("securefieldcode");
+          s.value = event.secureFieldCode;
+
+          console.log({ event });
+        }
+      }
+
+      function submitForm(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        const secureFieldCode =
+          document.getElementById("securefieldcode").value;
+
+        if (!secureFieldCode) {
+          alert(
+            "Secure Field Code is missing. Please check your card details."
+          );
+          return false;
+        }
+
+        fetch("http://localhost:3000/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            SecureFieldCode: secureFieldCode,
+            name: "John Doe", // Include any additional data if necessary
+          }),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            if (data?.data?.attributes?.Errors) {
+              alert(
+                `Token processed field, error: ${data?.data?.attributes?.Errors}`
+              );
+            } else {
+              alert("Token processed successfully.");
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            alert(
+              "An error occurred during payment processing. Please try again."
+            );
+          });
+
+        return false; // Prevent form submission again
+      }
+
+      window.onload = function () {
+        // Initialize secure fields when the page loads
+        eWAY.setupSecureField(nameFieldConfig, secureFieldCallback);
+        eWAY.setupSecureField(cardFieldConfig, secureFieldCallback);
+        eWAY.setupSecureField(expiryFieldConfig, secureFieldCallback);
+        eWAY.setupSecureField(cvnFieldConfig, secureFieldCallback);
+      };
+    </script>
+
+    <script
+      src="https://secure.ewaypayments.com/scripts/eWAY.min.js"
+      data-init="false"
+    ></script> -->
+
+
+
+
+<!----------------------------------------
+  the form below is for transparent redirect method test 
+  --------------------------------------->
+
+    <form
+      style="
+        width: 500px;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+      "
+      method="POST"
+      action="https://secure-au.sandbox.ewaypayments.com/AccessCode/60CF3BrhYrDeiJkkjurP5GL2jtZrDU8V1NZEz629tVJN731vmZGEvfhuNPyW3-pLRZbpkaUiOaZRCDnMbzJ2YbhTMQNRINtGeuM_nHJxwhl7UNTyBHTn6rkCqt6tjLypUOrSHrceCJ0xgZbIiUWpaYBsSjQ=="
+    >
+    ...
+    </form>
+      <h1 style="text-align: center">Make a Payment</h1>
+      <input
+        type="hidden"
+        name="EWAY_ACCESSCODE"
+        value="A1001TLKaihrPEBtZP4K2OBEK5G6bYybj-ZdDdPn0SiYEMiCWfSUP8NY25BNaSgIoMdAcGaKaTREzVyRDy_N_A2uUTfsPQlUipvAE3Ywqws6KVDhUWrTT4Eu-L07BtxX2ZWHepfvrk3BUXq0hjyeJTya5CQ=="
+      />
+      <br />
+      <br />
+      <input type="hidden" name="EWAY_PAYMENTTYPE" value="Credit Card" />
+      <label for="eway-secure-field-name">Card Name:</label>
+      <input placeholder="Name" type="text" name="EWAY_CARDNAME" />
+      <br />
+      <br />
+      <label for="eway-secure-field-card">Card Number:</label>
+      <input
+        placeholder="XXXX-XXXX-XXXX-XXXX"
+        type="text"
+        name="EWAY_CARDNUMBER"
+      />
+      <br />
+      <br />
+      <label for="eway-secure-field-expiry">Card Expiry:</label>
+      <input
+        style="width: 47%; display: inline; margin-left: 2px"
+        placeholder="MM"
+        type="text"
+        name="EWAY_CARDEXPIRYMONTH"
+      />
+      <input
+        style="width: 47%; display: inline"
+        placeholder="YY"
+        type="text"
+        name="EWAY_CARDEXPIRYYEAR"
+      />
+      <br /><br />
+      <label for="eway-secure-field-cvn">Card CVN:</label>
+      <input placeholder="CVN" type="text" name="EWAY_CARDCVN" />
+      <br />
+      <br />
+      <input
+        style="
+          background: #000;
+          color: white;
+          padding: 10px;
+          border-radius: 10px;
+          border: none;
+          font-size: 16px;
+          cursor: pointer;
+        "
+        type="submit"
+        value="Process"
+        text="Process"
+      />
+    </form>
+
+    <!-- <script>
+      function submitForm(event) {
+        // event.preventDefault(); // Prevent default form submission
+
+        const EWAY_ACCESSCODE =
+          document.getElementsByName("EWAY_ACCESSCODE")[0].value;
+
+        const EWAY_PAYMENTTYPE =
+          document.getElementsByName("EWAY_PAYMENTTYPE")[0].value;
+
+        const EWAY_CARDNAME =
+          document.getElementsByName("EWAY_CARDNAME")[0].value;
+        const EWAY_CARDNUMBER =
+          document.getElementsByName("EWAY_CARDNUMBER")[0].value;
+        const EWAY_CARDEXPIRYMONTH = document.getElementsByName(
+          "EWAY_CARDEXPIRYMONTH"
+        )[0].value;
+        const EWAY_CARDEXPIRYYEAR = document.getElementsByName(
+          "EWAY_CARDEXPIRYYEAR"
+        )[0].value;
+        const EWAY_CARDCVN =
+          document.getElementsByName("EWAY_CARDCVN")[0].value;
+
+        if (!EWAY_ACCESSCODE) {
+          alert("EWAY_ACCESSCODE is missing. Please check your card details.");
+          return false;
+        }
+
+        fetch(
+          "https://secure-au.sandbox.ewaypayments.com/AccessCode/60CF3BrhYrDeiJkkjurP5GL2jtZrDU8V1NZEz629tVJN731vmZGEvfhuNPyW3-pLRZbpkaUiOaZRCDnMbzJ2YbhTMQNRINtGeuM_nHJxwhl7UNTyBHTn6rkCqt6tjLypUOrSHrceCJ0xgZbIiUWpaYBsSjQ==",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              EWAY_ACCESSCODE: EWAY_ACCESSCODE,
+              EWAY_PAYMENTTYPE: EWAY_PAYMENTTYPE,
+              EWAY_CARDNAME: EWAY_CARDNAME,
+              EWAY_CARDNUMBER: EWAY_CARDNUMBER,
+              EWAY_CARDEXPIRYMONTH: EWAY_CARDEXPIRYMONTH,
+              EWAY_CARDEXPIRYYEAR: EWAY_CARDEXPIRYYEAR,
+              EWAY_CARDCVN: EWAY_CARDCVN,
+
+              // Include any additional data if necessary
+            }),
+          }
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            if (data?.data?.attributes?.Errors) {
+              alert(
+                `Token processed field, error: ${data?.data?.attributes?.Errors}`
+              );
+            } else {
+              alert("Token processed successfully.");
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            alert(
+              "An error occurred during payment processing. Please try again."
+            );
+          });
+
+        return false; // Prevent form submission again
+      }
+    </script> -->
+  </body>
+</html>
